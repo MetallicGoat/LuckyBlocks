@@ -1,0 +1,9 @@
+name: LuckyBlocks
+version: 1.0
+author: MetallicGoat
+main: me.metallicgoat.LuckyBlocks.Main
+api-version: 1.13
+description: LuckyBlocks for MBedwars
+commands:
+  luckyblock:
+    usage: /<command>
