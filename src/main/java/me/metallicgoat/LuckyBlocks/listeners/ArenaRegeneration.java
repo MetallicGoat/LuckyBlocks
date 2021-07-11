@@ -1,7 +1,8 @@
-package me.metallicgoat.LuckyBlocks;
+package me.metallicgoat.LuckyBlocks.listeners;
 
 import com.google.common.collect.BiMap;
 import de.marcely.bedwars.api.event.arena.ArenaRegenerationStartEvent;
+import me.metallicgoat.LuckyBlocks.Main;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.event.EventHandler;

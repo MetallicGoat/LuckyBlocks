@@ -2,6 +2,11 @@ package me.metallicgoat.LuckyBlocks;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import me.metallicgoat.LuckyBlocks.commands.Cmd;
+import me.metallicgoat.LuckyBlocks.listeners.ArenaRegeneration;
+import me.metallicgoat.LuckyBlocks.listeners.ArenaStart;
+import me.metallicgoat.LuckyBlocks.listeners.BreakBlock;
+import me.metallicgoat.LuckyBlocks.listeners.PlaceBlock;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.block.Block;
@@ -45,15 +50,15 @@ public class Main extends JavaPlugin {
 
     private void registerEvents() {
         PluginManager manager = this.server.getPluginManager();
-        manager.registerEvents(new Place(), this);
-        manager.registerEvents(new Break(), this);
+        manager.registerEvents(new PlaceBlock(), this);
+        manager.registerEvents(new BreakBlock(), this);
         manager.registerEvents(new ArenaRegeneration(), this);
         manager.registerEvents(new ArenaStart(), this);
     }
 
     private void registerCommands() {
-        getCommand("LuckyBlock").setExecutor(new Commands());
-        //getCommand("FB-knockback").setTabCompleter(new tabCompleter());
+        getCommand("LuckyBlock").setExecutor(new Cmd());
+        //getCommand("LuckyBlock").setTabCompleter(new tabCompleter());
     }
 
     public static Main getInstance() {

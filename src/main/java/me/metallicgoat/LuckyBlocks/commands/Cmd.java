@@ -1,6 +1,8 @@
-package me.metallicgoat.LuckyBlocks;
+package me.metallicgoat.LuckyBlocks.commands;
 
 import com.google.common.collect.BiMap;
+import me.metallicgoat.LuckyBlocks.utils.SkullBuilder;
+import me.metallicgoat.LuckyBlocks.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
@@ -12,21 +14,20 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Commands implements CommandExecutor {
+public class Cmd implements CommandExecutor {
 
     //commands are for testing purposes
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-        Main plugin = Main.getInstance();
         if (args.length == 2 && args[0].equalsIgnoreCase("give")) {
             if (sender instanceof Player) {
 
                 final String type = args[1];
 
-                final String name = plugin.getConfig().getString("LuckyBlocks." + type + ".Name");
-                final String texture = plugin.getConfig().getString("LuckyBlocks." + type + ".Texture");
-                final String textureUUID = plugin.getConfig().getString("LuckyBlocks." + type + ".UUID");
+                final String name = plugin().getConfig().getString("LuckyBlocks." + type + ".Name");
+                final String texture = plugin().getConfig().getString("LuckyBlocks." + type + ".Texture");
+                final String textureUUID = plugin().getConfig().getString("LuckyBlocks." + type + ".UUID");
 
                 ItemStack LuckyBlock = getSkull(textureUUID, texture, 20, name, type);
 
@@ -56,6 +57,10 @@ public class Commands implements CommandExecutor {
     }
 
     private ItemStack getSkull(String textureUUID, String texture, int amount, String name, String type){
-        return LuckyBlockSkulls.getSkull(textureUUID, texture, amount, name, type);
+        return SkullBuilder.getSkull(textureUUID, texture, amount, name, type);
+    }
+
+    private Main plugin(){
+        return Main.getInstance();
     }
 }

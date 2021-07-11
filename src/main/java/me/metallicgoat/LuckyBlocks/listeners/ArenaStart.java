@@ -1,9 +1,11 @@
-package me.metallicgoat.LuckyBlocks;
+package me.metallicgoat.LuckyBlocks.listeners;
 
 import de.marcely.bedwars.api.arena.Arena;
 import de.marcely.bedwars.api.arena.ArenaStatus;
 import de.marcely.bedwars.api.event.arena.RoundStartEvent;
 import de.marcely.bedwars.api.game.spawner.Spawner;
+import me.metallicgoat.LuckyBlocks.utils.SkullBuilder;
+import me.metallicgoat.LuckyBlocks.Main;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
@@ -23,20 +25,18 @@ public class ArenaStart implements Listener {
 
         //Gets all the lucky blocks from the config
 
-        Main plugin = Main.getInstance();
-
-        final ConfigurationSection sect = plugin.getConfig().getConfigurationSection("LuckyBlocks");
+        final ConfigurationSection sect = plugin().getConfig().getConfigurationSection("LuckyBlocks");
 
         final Arena arena = e.getArena();
 
         sect.getKeys(false).forEach(key ->  {
-            final long time = plugin.getConfig().getLong("LuckyBlocks." + key + ".DropRate");
-            final String name = plugin.getConfig().getString("LuckyBlocks." + key + ".Name");
-            final String texture = plugin.getConfig().getString("LuckyBlocks." + key + ".Texture");
-            final String textureUUID = plugin.getConfig().getString("LuckyBlocks." + key + ".UUID");
-            final String spawner = plugin.getConfig().getString("LuckyBlocks." + key + ".Spawner");
-            final int itemCap = plugin.getConfig().getInt("LuckyBlocks." + key + ".ItemCap");
-            final int amount = plugin.getConfig().getInt("LuckyBlocks." + key + ".DropAmount");
+            final long time = plugin().getConfig().getLong("LuckyBlocks." + key + ".DropRate");
+            final String name = plugin().getConfig().getString("LuckyBlocks." + key + ".Name");
+            final String texture = plugin().getConfig().getString("LuckyBlocks." + key + ".Texture");
+            final String textureUUID = plugin().getConfig().getString("LuckyBlocks." + key + ".UUID");
+            final String spawner = plugin().getConfig().getString("LuckyBlocks." + key + ".Spawner");
+            final int itemCap = plugin().getConfig().getInt("LuckyBlocks." + key + ".ItemCap");
+            final int amount = plugin().getConfig().getInt("LuckyBlocks." + key + ".DropAmount");
 
             SpawnLucky(arena, time, name, key, texture, textureUUID, spawner, itemCap, amount);
 
@@ -67,12 +67,11 @@ public class ArenaStart implements Listener {
     }
 
     private ItemStack getSkull(String textureUUID, String texture, int amount, String name, String type){
-        return LuckyBlockSkulls.getSkull(textureUUID, texture, amount, name, type);
+        return SkullBuilder.getSkull(textureUUID, texture, amount, name, type);
     }
 
     //gets amount of a type of lucky blocks are inside a generator
     private int getAmount(Location loc, World w, String type){
-        Main plugin = Main.getInstance();
 
         int i = 0;
 
@@ -81,8 +80,8 @@ public class ArenaStart implements Listener {
 
                 ItemStack itemStack = ((Item) e).getItemStack();
 
-                if(itemStack.getItemMeta().getPersistentDataContainer().has(new NamespacedKey(plugin, "LuckyBlock"), PersistentDataType.STRING)){
-                    if(itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(plugin, "LuckyBlock"), PersistentDataType.STRING).equals(type))
+                if(itemStack.getItemMeta().getPersistentDataContainer().has(new NamespacedKey(plugin(), "LuckyBlock"), PersistentDataType.STRING)){
+                    if(itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(plugin(), "LuckyBlock"), PersistentDataType.STRING).equals(type))
                     i = i + itemStack.getAmount();
                 }
             }
@@ -97,5 +96,9 @@ public class ArenaStart implements Listener {
             return i.getType().name();
         }
         return "";
+    }
+
+    private Main plugin(){
+        return Main.getInstance();
     }
 }
