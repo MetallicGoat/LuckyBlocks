@@ -1,12 +1,15 @@
 package me.metallicgoat.LuckyBlocks;
 
 import com.google.common.collect.BiMap;
+import de.marcely.bedwars.api.BedwarsAPI;
+import de.marcely.bedwars.api.arena.Arena;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -20,28 +23,38 @@ public class Place implements Listener {
     public void onPlace(final BlockPlaceEvent e){
         final Main plugin = Main.getInstance();
         final Location loc = e.getBlock().getLocation();
+        final Player player = e.getPlayer();
+        final Arena arena = BedwarsAPI.getGameAPI().getArenaByPlayer(player);
         final ItemStack hand = e.getItemInHand();
-        if(hand.getItemMeta().getPersistentDataContainer().has(new NamespacedKey(plugin, "LuckyBlock"), PersistentDataType.STRING)){
+        final double distance = player.getLocation().distance(e.getBlock().getLocation().add(0.5, 0, 0.5));
 
-            String type = hand.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(plugin, "LuckyBlock"), PersistentDataType.STRING);
+        if (hand.getItemMeta().getPersistentDataContainer().has(new NamespacedKey(plugin, "LuckyBlock"), PersistentDataType.STRING)) {
+            //lucky blocks are heads, this makes it so plays cant place blocks inside of themselves (Needs to be made better)
+            if(arena != null && arena.isInside(loc) && distance >= 1.0D) {
+                String type = hand.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(plugin, "LuckyBlock"), PersistentDataType.STRING);
 
-            final String texture = plugin.getConfig().getString("LuckyBlocks." + type + ".Texture");
-            final String TextureUUID = plugin.getConfig().getString("LuckyBlocks." + type + ".UUID");
-            final String color = plugin.getConfig().getString("LuckyBlocks." + type + ".GlassBlock");
+                final String texture = plugin.getConfig().getString("LuckyBlocks." + type + ".Texture");
+                final String textureUUID = plugin.getConfig().getString("LuckyBlocks." + type + ".UUID");
+                final String color = plugin.getConfig().getString("LuckyBlocks." + type + ".GlassBlock");
 
-            BukkitScheduler scheduler = plugin.getServer().getScheduler();
-            scheduler.scheduleSyncDelayedTask(plugin, () -> {
-                e.getBlock().setType(Material.valueOf(color.toUpperCase()));
+                BukkitScheduler scheduler = plugin.getServer().getScheduler();
+                scheduler.scheduleSyncDelayedTask(plugin, () -> {
+                    e.getBlock().setType(Material.valueOf(color.toUpperCase()));
+                    arena.setBlockPlayerPlaced(e.getBlock(), true);
 
-                ArmorStand armorStand = (ArmorStand) loc.getWorld().spawnEntity(loc.add(0.5, -1.25, 0.5), EntityType.ARMOR_STAND);
+                    ArmorStand armorStand = (ArmorStand) loc.getWorld().spawnEntity(loc.add(0.5, -1.25, 0.5), EntityType.ARMOR_STAND);
 
-                armorStand.setVisible(false);
-                armorStand.setGravity(false);
-                armorStand.setMarker(true);
-                armorStand.getEquipment().setHelmet(getSkull(TextureUUID, texture));
+                    armorStand.setVisible(false);
+                    armorStand.setGravity(false);
+                    armorStand.setMarker(true);
+                    armorStand.getEquipment().setHelmet(getSkull(textureUUID, texture, 1, "LuckyBlock", "Placed"));
 
-                biMap().put(e.getBlock(), armorStand);
-            }, 1L);
+                    biMap().put(e.getBlock(), armorStand);
+                }, 1L);
+            }else{
+                //Lucky blocks cant be placed outside an arena
+                e.setBuild(false);
+            }
         }
     }
 
@@ -49,49 +62,7 @@ public class Place implements Listener {
         return Main.getInstance().getBiMap();
     }
 
-    private ItemStack getSkull(String TextureUUID, String texture){
-        return Heads.getSkull(TextureUUID, texture);
+    private ItemStack getSkull(String textureUUID, String texture, int amount, String name, String type){
+        return LuckyBlockSkulls.getSkull(textureUUID, texture, amount, name, type);
     }
-
-
-        /*
-    @EventHandler
-    public void clickStand(PlayerInteractAtEntityEvent e){
-        if(e.getRightClicked().getType() == EntityType.ARMOR_STAND && isPlaceable(e.getPlayer(), 3)){
-            ArmorStand clicked = (ArmorStand) e.getRightClicked();
-            if(biMap.containsValue(clicked)){
-                Block block = biMap.inverse().get(clicked).getRelative(0, -1, 0);
-                double distance = e.getPlayer().getLocation().distance(block.getLocation().add(0.5, 0, 0.5));
-
-                if(distance > 1.27D) {
-                    Location loc = block.getLocation();
-                    block.setType(Material.GLASS);
-
-                    ArmorStand armorStand = (ArmorStand) loc.getWorld().spawnEntity(loc.add(0.5, -1.25, 0.5), EntityType.ARMOR_STAND);
-
-                    armorStand.setVisible(false);
-                    armorStand.setGravity(false);
-                    armorStand.setHelmet(getSkull());
-
-                    biMap.put(block, armorStand);
-
-                }
-            }
-        }
-    }
-
-        private boolean isPlaceable(Player player, int range) {
-        BlockIterator iter = new BlockIterator(player, range);
-        Block lastBlock;
-        while (iter.hasNext()) {
-            lastBlock = iter.next();
-            if (lastBlock.getType() == Material.AIR) {
-                continue;
-            }
-            return true;
-        }
-        return false;
-    }
-
-     */
 }

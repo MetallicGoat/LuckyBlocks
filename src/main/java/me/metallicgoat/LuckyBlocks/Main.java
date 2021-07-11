@@ -11,6 +11,10 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+
 public class Main extends JavaPlugin {
 
     private static Main instance;
@@ -22,7 +26,7 @@ public class Main extends JavaPlugin {
         int pluginId = 11753;
         //Metrics metrics = new Metrics(this, pluginId);
 
-        //loadConfig();
+        loadConfig();
         registerEvents();
         registerCommands();
 
@@ -42,6 +46,9 @@ public class Main extends JavaPlugin {
     private void registerEvents() {
         PluginManager manager = this.server.getPluginManager();
         manager.registerEvents(new Place(), this);
+        manager.registerEvents(new Break(), this);
+        manager.registerEvents(new ArenaRegeneration(), this);
+        manager.registerEvents(new ArenaStart(), this);
     }
 
     private void registerCommands() {
@@ -61,8 +68,6 @@ public class Main extends JavaPlugin {
         return console;
     }
 
-    /*
-
     private void loadConfig(){
         saveDefaultConfig();
         File configFile = new File(getDataFolder(), "config.yml");
@@ -75,8 +80,6 @@ public class Main extends JavaPlugin {
 
         reloadConfig();
     }
-
-     */
 
     private void log(String ...args) {
         for(String s : args)
