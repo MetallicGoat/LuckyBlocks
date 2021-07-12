@@ -19,6 +19,7 @@ public class Main extends JavaPlugin {
     private final Server server = getServer();
 
     public void onEnable() {
+        instance = this;
         int pluginId = 11753;
         //Metrics metrics = new Metrics(this, pluginId);
 
@@ -28,7 +29,6 @@ public class Main extends JavaPlugin {
         ServerManager.registerCommands();
         ServerManager.registerEvents();
 
-        instance = this;
         PluginDescriptionFile pdf = this.getDescription();
 
         log(

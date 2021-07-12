@@ -1,9 +1,11 @@
 package me.metallicgoat.LuckyBlocks.utils.configs;
 
 import me.metallicgoat.LuckyBlocks.Main;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,7 +40,7 @@ public class ConfigManager {
 
     public static void loadCustomConfigs() {
         File luckyDropsFile = new File(Main.getInstance().getDataFolder(), "LuckyDrops.yml");
-        File luckyBlocksFile = new File(Main.getInstance().getDataFolder(), "LuckyDrops.yml");
+        File luckyBlocksFile = new File(Main.getInstance().getDataFolder(), "LuckyBlocks.yml");
         if (!luckyDropsFile.exists()) {
             luckyDropsFile.getParentFile().mkdirs();
             Main.getInstance().saveResource("LuckyDrops.yml", false);

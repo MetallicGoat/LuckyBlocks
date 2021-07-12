@@ -1,5 +1,7 @@
 package me.metallicgoat.LuckyBlocks.utils.configs;
 
+import me.metallicgoat.LuckyBlocks.Main;
+
 public class GetConfig {
     public static String getLuckyBlockStringAttribute(String type, String path){
         return configManager().getLuckyBlocksConfig().getString("LuckyBlocks." + type + "." + path);
