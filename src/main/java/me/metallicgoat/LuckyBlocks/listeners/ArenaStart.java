@@ -4,7 +4,7 @@ import de.marcely.bedwars.api.arena.Arena;
 import de.marcely.bedwars.api.arena.ArenaStatus;
 import de.marcely.bedwars.api.event.arena.RoundStartEvent;
 import de.marcely.bedwars.api.game.spawner.Spawner;
-import me.metallicgoat.LuckyBlocks.utils.GetConfig;
+import me.metallicgoat.LuckyBlocks.utils.configs.GetConfig;
 import me.metallicgoat.LuckyBlocks.utils.SkullBuilder;
 import me.metallicgoat.LuckyBlocks.Main;
 import org.bukkit.Location;
@@ -31,13 +31,13 @@ public class ArenaStart implements Listener {
         final Arena arena = e.getArena();
 
         sect.getKeys(false).forEach(key ->  {
-            final long time = GetConfig.getLuckyInt(key, "DropRate");
-            final String name = GetConfig.getLuckyString(key, "Name");
-            final String texture = GetConfig.getLuckyString(key, "Texture");
-            final String textureUUID = GetConfig.getLuckyString(key, "UUID");
-            final String spawner = GetConfig.getLuckyString(key,"Spawner");
-            final int itemCap = GetConfig.getLuckyInt(key, "ItemCap");
-            final int amount = GetConfig.getLuckyInt(key, "DropAmount");
+            final long time = GetConfig.getLuckyBlockIntAttribute(key, "DropRate");
+            final String name = GetConfig.getLuckyBlockStringAttribute(key, "Name");
+            final String texture = GetConfig.getLuckyBlockStringAttribute(key, "Texture");
+            final String textureUUID = GetConfig.getLuckyBlockStringAttribute(key, "UUID");
+            final String spawner = GetConfig.getLuckyBlockStringAttribute(key,"Spawner");
+            final int itemCap = GetConfig.getLuckyBlockIntAttribute(key, "ItemCap");
+            final int amount = GetConfig.getLuckyBlockIntAttribute(key, "DropAmount");
 
             SpawnLucky(arena, time, name, key, texture, textureUUID, spawner, itemCap, amount);
 
