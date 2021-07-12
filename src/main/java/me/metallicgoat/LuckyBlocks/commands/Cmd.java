@@ -1,6 +1,7 @@
 package me.metallicgoat.LuckyBlocks.commands;
 
 import com.google.common.collect.BiMap;
+import me.metallicgoat.LuckyBlocks.utils.GetConfig;
 import me.metallicgoat.LuckyBlocks.utils.SkullBuilder;
 import me.metallicgoat.LuckyBlocks.Main;
 import org.bukkit.ChatColor;
@@ -25,9 +26,9 @@ public class Cmd implements CommandExecutor {
 
                 final String type = args[1];
 
-                final String name = plugin().getConfig().getString("LuckyBlocks." + type + ".Name");
-                final String texture = plugin().getConfig().getString("LuckyBlocks." + type + ".Texture");
-                final String textureUUID = plugin().getConfig().getString("LuckyBlocks." + type + ".UUID");
+                final String name = GetConfig.getLuckyString(type, "Name");
+                final String texture = GetConfig.getLuckyString(type, "Texture");
+                final String textureUUID = GetConfig.getLuckyString(type, "UUID");
 
                 ItemStack LuckyBlock = getSkull(textureUUID, texture, 20, name, type);
 
@@ -40,6 +41,7 @@ public class Cmd implements CommandExecutor {
         }else if (args.length == 1 && args[0].equalsIgnoreCase("map")){
             if (sender instanceof Player) {
                 sender.sendMessage(ChatColor.GREEN + "LuckyBlocks: " + ChatColor.RED + getNumBlocksInMap());
+                return true;
             }
         }
         return false;
@@ -58,9 +60,5 @@ public class Cmd implements CommandExecutor {
 
     private ItemStack getSkull(String textureUUID, String texture, int amount, String name, String type){
         return SkullBuilder.getSkull(textureUUID, texture, amount, name, type);
-    }
-
-    private Main plugin(){
-        return Main.getInstance();
     }
 }

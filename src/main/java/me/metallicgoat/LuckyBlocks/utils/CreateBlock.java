@@ -20,9 +20,9 @@ public class CreateBlock {
 
         final String type = hand.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(plugin(), "LuckyBlock"), PersistentDataType.STRING);
 
-        final String texture = plugin().getConfig().getString("LuckyBlocks." + type + ".Texture");
-        final String textureUUID = plugin().getConfig().getString("LuckyBlocks." + type + ".UUID");
-        final String color = plugin().getConfig().getString("LuckyBlocks." + type + ".GlassBlock");
+        final String texture = GetConfig.getLuckyString(type, "Texture");
+        final String textureUUID = GetConfig.getLuckyString(type, "UUID");
+        final String color = GetConfig.getLuckyString(type, "GlassColor");
 
         BukkitScheduler scheduler = plugin().getServer().getScheduler();
         scheduler.scheduleSyncDelayedTask(plugin(), () -> {

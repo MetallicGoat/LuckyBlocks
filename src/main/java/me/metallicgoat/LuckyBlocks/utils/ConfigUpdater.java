@@ -1,4 +1,4 @@
-package me.metallicgoat.LuckyBlocks;
+package me.metallicgoat.LuckyBlocks.utils;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;

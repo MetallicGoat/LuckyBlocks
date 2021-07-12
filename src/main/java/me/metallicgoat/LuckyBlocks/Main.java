@@ -7,6 +7,7 @@ import me.metallicgoat.LuckyBlocks.listeners.ArenaRegeneration;
 import me.metallicgoat.LuckyBlocks.listeners.ArenaStart;
 import me.metallicgoat.LuckyBlocks.listeners.BreakBlock;
 import me.metallicgoat.LuckyBlocks.listeners.PlaceBlock;
+import me.metallicgoat.LuckyBlocks.utils.ConfigUpdater;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.block.Block;
