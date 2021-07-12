@@ -3,6 +3,7 @@ package me.metallicgoat.LuckyBlocks;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import me.metallicgoat.LuckyBlocks.commands.Cmd;
+import me.metallicgoat.LuckyBlocks.commands.TabComp;
 import me.metallicgoat.LuckyBlocks.listeners.ArenaRegeneration;
 import me.metallicgoat.LuckyBlocks.listeners.ArenaStart;
 import me.metallicgoat.LuckyBlocks.listeners.BreakBlock;
@@ -59,7 +60,7 @@ public class Main extends JavaPlugin {
 
     private void registerCommands() {
         getCommand("LuckyBlock").setExecutor(new Cmd());
-        //getCommand("LuckyBlock").setTabCompleter(new tabCompleter());
+        getCommand("LuckyBlock").setTabCompleter(new TabComp());
     }
 
     public static Main getInstance() {
