@@ -4,6 +4,7 @@ import de.marcely.bedwars.api.arena.Arena;
 import de.marcely.bedwars.api.arena.ArenaStatus;
 import de.marcely.bedwars.api.event.arena.RoundStartEvent;
 import de.marcely.bedwars.api.game.spawner.Spawner;
+import me.metallicgoat.LuckyBlocks.utils.configs.ConfigManager;
 import me.metallicgoat.LuckyBlocks.utils.configs.GetConfig;
 import me.metallicgoat.LuckyBlocks.utils.SkullBuilder;
 import me.metallicgoat.LuckyBlocks.Main;
@@ -26,12 +27,14 @@ public class ArenaStart implements Listener {
 
         //Gets all the lucky blocks from the config
 
-        final ConfigurationSection sect = plugin().getConfig().getConfigurationSection("LuckyBlocks");
+        //TODO: Make better
+        ConfigManager configManager = new ConfigManager();
+        final ConfigurationSection sect = configManager.getLuckyBlocksConfig().getConfigurationSection("LuckyBlocks");
 
         final Arena arena = e.getArena();
 
         sect.getKeys(false).forEach(key ->  {
-            final long time = GetConfig.getLuckyBlockIntAttribute(key, "DropRate");
+            final long time = GetConfig.getLuckyBlockLongAttribute(key, "DropRate");
             final String name = GetConfig.getLuckyBlockStringAttribute(key, "Name");
             final String texture = GetConfig.getLuckyBlockStringAttribute(key, "Texture");
             final String textureUUID = GetConfig.getLuckyBlockStringAttribute(key, "UUID");
@@ -83,7 +86,7 @@ public class ArenaStart implements Listener {
 
                 if(itemStack.getItemMeta().getPersistentDataContainer().has(new NamespacedKey(plugin(), "LuckyBlock"), PersistentDataType.STRING)){
                     if(itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(plugin(), "LuckyBlock"), PersistentDataType.STRING).equals(type))
-                    i = i + itemStack.getAmount();
+                        i = i + itemStack.getAmount();
                 }
             }
         }
@@ -103,3 +106,4 @@ public class ArenaStart implements Listener {
         return Main.getInstance();
     }
 }
+

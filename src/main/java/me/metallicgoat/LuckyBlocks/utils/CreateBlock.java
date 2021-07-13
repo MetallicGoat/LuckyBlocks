@@ -23,7 +23,7 @@ public class CreateBlock {
 
         final String texture = GetConfig.getLuckyBlockStringAttribute(type, "Texture");
         final String textureUUID = GetConfig.getLuckyBlockStringAttribute(type, "UUID");
-        final String color = GetConfig.getLuckyBlockStringAttribute(type, "GlassColor");
+        final String color = GetConfig.getLuckyBlockStringAttribute(type, "GlassBlock");
 
         BukkitScheduler scheduler = plugin().getServer().getScheduler();
         scheduler.scheduleSyncDelayedTask(plugin(), () -> {
