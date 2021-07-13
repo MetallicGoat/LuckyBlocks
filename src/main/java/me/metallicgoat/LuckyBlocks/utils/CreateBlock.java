@@ -3,7 +3,7 @@ package me.metallicgoat.LuckyBlocks.utils;
 import com.google.common.collect.BiMap;
 import de.marcely.bedwars.api.arena.Arena;
 import me.metallicgoat.LuckyBlocks.Main;
-import me.metallicgoat.LuckyBlocks.utils.configs.GetConfig;
+import me.metallicgoat.LuckyBlocks.utils.configs.ConfigManager;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -21,9 +21,10 @@ public class CreateBlock {
 
         final String type = hand.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(plugin(), "LuckyBlock"), PersistentDataType.STRING);
 
-        final String texture = GetConfig.getLuckyBlockStringAttribute(type, "Texture");
-        final String textureUUID = GetConfig.getLuckyBlockStringAttribute(type, "UUID");
-        final String color = GetConfig.getLuckyBlockStringAttribute(type, "GlassBlock");
+        //TODO: Shorten
+        final String texture = ServerManager.getConfigManager().getLuckyBlockStringAttribute(type, "Texture");
+        final String textureUUID = ServerManager.getConfigManager().getLuckyBlockStringAttribute(type, "UUID");
+        final String color = ServerManager.getConfigManager().getLuckyBlockStringAttribute(type, "GlassBlock");
 
         BukkitScheduler scheduler = plugin().getServer().getScheduler();
         scheduler.scheduleSyncDelayedTask(plugin(), () -> {

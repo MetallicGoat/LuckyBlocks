@@ -2,6 +2,7 @@ package me.metallicgoat.LuckyBlocks.listeners;
 
 import com.google.common.collect.BiMap;
 import me.metallicgoat.LuckyBlocks.Main;
+import me.metallicgoat.LuckyBlocks.utils.ServerManager;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.event.EventHandler;
@@ -16,8 +17,7 @@ public class Explosions implements Listener {
     @EventHandler
     public void onExplosion(EntityExplodeEvent e){
 
-        //TODO: Get from a config
-        final boolean explode = false;
+        final boolean explode = ServerManager.getConfigManager().getDefaultConfig().getBoolean("Exploitable");
 
         List<Block> blockListCopy = new ArrayList<>(e.blockList());
 

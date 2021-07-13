@@ -7,3 +7,4 @@ description: LuckyBlocks for MBedwars
 commands:
   luckyblock:
     usage: /<command>
+    permission: gensplitter.reload

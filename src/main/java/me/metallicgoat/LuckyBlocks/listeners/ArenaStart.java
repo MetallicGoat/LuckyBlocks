@@ -4,8 +4,7 @@ import de.marcely.bedwars.api.arena.Arena;
 import de.marcely.bedwars.api.arena.ArenaStatus;
 import de.marcely.bedwars.api.event.arena.RoundStartEvent;
 import de.marcely.bedwars.api.game.spawner.Spawner;
-import me.metallicgoat.LuckyBlocks.utils.configs.ConfigManager;
-import me.metallicgoat.LuckyBlocks.utils.configs.GetConfig;
+import me.metallicgoat.LuckyBlocks.utils.ServerManager;
 import me.metallicgoat.LuckyBlocks.utils.SkullBuilder;
 import me.metallicgoat.LuckyBlocks.Main;
 import org.bukkit.Location;
@@ -27,20 +26,19 @@ public class ArenaStart implements Listener {
 
         //Gets all the lucky blocks from the config
 
-        //TODO: Make better
-        ConfigManager configManager = new ConfigManager();
-        final ConfigurationSection sect = configManager.getLuckyBlocksConfig().getConfigurationSection("LuckyBlocks");
+        final ConfigurationSection sect = ServerManager.getConfigManager().getLuckyBlocksConfig().getConfigurationSection("LuckyBlocks");
 
         final Arena arena = e.getArena();
 
         sect.getKeys(false).forEach(key ->  {
-            final long time = GetConfig.getLuckyBlockLongAttribute(key, "DropRate");
-            final String name = GetConfig.getLuckyBlockStringAttribute(key, "Name");
-            final String texture = GetConfig.getLuckyBlockStringAttribute(key, "Texture");
-            final String textureUUID = GetConfig.getLuckyBlockStringAttribute(key, "UUID");
-            final String spawner = GetConfig.getLuckyBlockStringAttribute(key,"Spawner");
-            final int itemCap = GetConfig.getLuckyBlockIntAttribute(key, "ItemCap");
-            final int amount = GetConfig.getLuckyBlockIntAttribute(key, "DropAmount");
+
+            final long time = ServerManager.getConfigManager().getLuckyBlockLongAttribute(key, "DropRate");
+            final String name = ServerManager.getConfigManager().getLuckyBlockStringAttribute(key, "Name");
+            final String texture = ServerManager.getConfigManager().getLuckyBlockStringAttribute(key, "Texture");
+            final String textureUUID = ServerManager.getConfigManager().getLuckyBlockStringAttribute(key, "UUID");
+            final String spawner = ServerManager.getConfigManager().getLuckyBlockStringAttribute(key,"Spawner");
+            final int itemCap = ServerManager.getConfigManager().getLuckyBlockIntAttribute(key, "ItemCap");
+            final int amount = ServerManager.getConfigManager().getLuckyBlockIntAttribute(key, "DropAmount");
 
             SpawnLucky(arena, time, name, key, texture, textureUUID, spawner, itemCap, amount);
 

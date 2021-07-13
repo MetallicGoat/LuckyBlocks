@@ -1,7 +1,8 @@
 package me.metallicgoat.LuckyBlocks.commands;
 
 import com.google.common.collect.BiMap;
-import me.metallicgoat.LuckyBlocks.utils.configs.GetConfig;
+import me.metallicgoat.LuckyBlocks.utils.ServerManager;
+import me.metallicgoat.LuckyBlocks.utils.configs.ConfigManager;
 import me.metallicgoat.LuckyBlocks.utils.SkullBuilder;
 import me.metallicgoat.LuckyBlocks.Main;
 import org.bukkit.ChatColor;
@@ -26,9 +27,11 @@ public class Cmd implements CommandExecutor {
 
                 final String type = args[1];
 
-                final String name = GetConfig.getLuckyBlockStringAttribute(type, "Name");
-                final String texture = GetConfig.getLuckyBlockStringAttribute(type, "Texture");
-                final String textureUUID = GetConfig.getLuckyBlockStringAttribute(type, "UUID");
+
+                //TODO: Shorten
+                final String name = ServerManager.getConfigManager().getLuckyBlockStringAttribute(type, "Name");
+                final String texture = ServerManager.getConfigManager().getLuckyBlockStringAttribute(type, "Texture");
+                final String textureUUID = ServerManager.getConfigManager().getLuckyBlockStringAttribute(type, "UUID");
 
                 ItemStack LuckyBlock = getSkull(textureUUID, texture, 20, name, type);
 
