@@ -1,9 +1,13 @@
 LuckyBlocks:
   Orange:
     Drop1:
-      Type:
-      Name:
-      Amount:
+      Type: SpecialItem
+      Name: tower
+      Amount: 1
+    Drop2:
+      Type: Material
+      Name: obsidian
+      Amount: 4
   Blue:
   Green:
   Black:

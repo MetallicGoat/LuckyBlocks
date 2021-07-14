@@ -2,6 +2,7 @@ package me.metallicgoat.LuckyBlocks.listeners;
 
 import com.google.common.collect.BiMap;
 import me.metallicgoat.LuckyBlocks.Main;
+import me.metallicgoat.LuckyBlocks.utils.DropItem;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
@@ -28,10 +29,11 @@ public class BreakBlock implements Listener {
     private void dropItem(Block block){
         //TODO: Random drop system
         Location loc = block.getLocation();
-        World world = loc.getWorld();
 
         //world.dropItemNaturally(loc, new ItemStack(Material.valueOf(plugin.getConfig().getString("LuckyBlocks." + dropType(biMap().get(block)) + ".Drop"))));
         //Get list of drops with droptype. List will be in a separate config
+
+        new DropItem(dropType(biMap().get(block)), loc);
 
         //Remove from map here
         biMap().remove(block);

@@ -30,6 +30,7 @@ public class PlaceBlock implements Listener {
         if (hand.getItemMeta().getPersistentDataContainer().has(new NamespacedKey(plugin, "LuckyBlock"), PersistentDataType.STRING)) {
             //lucky blocks are heads, this makes it so plays cant place blocks inside of themselves (Needs to be made better)
             if(arena != null && arena.isInside(loc) && distance >= 1.0D) {
+
                 CreateBlock createBlock = new CreateBlock();
                 createBlock.setBlock(hand, block, arena, loc, against);
 
