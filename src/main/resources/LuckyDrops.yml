@@ -8,6 +8,15 @@ LuckyBlocks:
       Type: Material
       Name: obsidian
       Amount: 4
+    Drop2:
+      Type: Material
+      Name: obsidian
+      Amount: 4
+    Drop2:
+      Type: Material
+      Name: obsidian
+      Amount: 4
+
   Blue:
   Green:
   Black:

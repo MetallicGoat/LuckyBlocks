@@ -5,6 +5,7 @@ import me.metallicgoat.LuckyBlocks.utils.configs.ConfigManager;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -18,13 +19,14 @@ public class DropItem {
 
         String drop = randomDrop(type);
 
-        final String dropType = configManager().getLuckyDropsConfig().getString("LuckyBlocks." + type + "." + drop + ".Type");
-        final String name = configManager().getLuckyDropsConfig().getString("LuckyBlocks." + type + "." + drop + ".Name");
-        final int amount = configManager().getLuckyDropsConfig().getInt("LuckyBlocks." + type + "." + drop + ".Amount");
+        if(drop != null) {
 
-        assert dropType != null;
-        setDrop(dropType, name, amount, loc);
+            final String dropType = configManager().getLuckyDropsConfig().getString("LuckyBlocks." + type + "." + drop + ".Type");
+            final String name = configManager().getLuckyDropsConfig().getString("LuckyBlocks." + type + "." + drop + ".Name");
+            final int amount = configManager().getLuckyDropsConfig().getInt("LuckyBlocks." + type + "." + drop + ".Amount");
 
+            setDrop(dropType, name, amount, loc);
+        }
     }
 
     private void setDrop(String dropType, String name, int amount, Location loc){
@@ -46,13 +48,21 @@ public class DropItem {
 
     private String randomDrop(String type){
 
-        Set<String> stringSet = Objects.requireNonNull(configManager().getLuckyDropsConfig().getConfigurationSection("LuckyBlocks." + type)).getKeys(false);
+        ConfigurationSection drops = configManager().getLuckyDropsConfig().getConfigurationSection("LuckyBlocks." + type);
 
-        ArrayList<String> stringArray = new ArrayList<>(stringSet);
+        if(drops != null && !drops.getKeys(false).isEmpty()) {
+            drops.getKeys(false);
 
-        Random random = new Random();
+            Set<String> stringSet = drops.getKeys(false);
 
-        return stringArray.get(random.nextInt(stringArray.size()));
+            ArrayList<String> stringArray = new ArrayList<>(stringSet);
+
+            Random random = new Random();
+
+            return stringArray.get(random.nextInt(stringArray.size()));
+        }else{
+            return null;
+        }
     }
 
     private ConfigManager configManager(){

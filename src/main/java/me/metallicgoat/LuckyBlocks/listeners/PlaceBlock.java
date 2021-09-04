@@ -25,17 +25,41 @@ public class PlaceBlock implements Listener {
         final Player player = e.getPlayer();
         final Arena arena = BedwarsAPI.getGameAPI().getArenaByPlayer(player);
         final ItemStack hand = e.getItemInHand();
-        final double distance = player.getLocation().distance(e.getBlock().getLocation().add(0.5, 0, 0.5));
+        final Location centerBlock = e.getBlock().getLocation().add(0.5, 0, 0.5);
 
-        if (hand.getItemMeta().getPersistentDataContainer().has(new NamespacedKey(plugin, "LuckyBlock"), PersistentDataType.STRING)) {
-            //lucky blocks are heads, this makes it so plays cant place blocks inside of themselves (Needs to be made better)
-            if(arena != null && arena.isInside(loc) && distance >= 1.0D) {
+        if (hand.getItemMeta() != null &&
+                hand.getItemMeta().getPersistentDataContainer().has(new NamespacedKey(plugin, "LuckyBlock"), PersistentDataType.STRING)) {
+            //lucky blocks are heads, this makes it so plays can't place blocks inside themselves (Needs to be made better)
 
-                CreateBlock createBlock = new CreateBlock();
-                createBlock.setBlock(hand, block, arena, loc, against);
+            System.out.println(Math.abs(player.getLocation().getX() - centerBlock.getX()) + " " + Math.abs(player.getLocation().getZ() - centerBlock.getZ()) + " " +  Math.abs(player.getLocation().getY() - centerBlock.getY()));
+            System.out.println(player.getVelocity().getY());
+
+            //TODO Entities
+
+            //THANKS MARCEL!
+            if(Math.abs(player.getLocation().getX() - centerBlock.getX()) > 0.8
+                    || Math.abs(player.getLocation().getZ() - centerBlock.getZ()) > 0.8
+                    || Math.abs(player.getLocation().getY() - centerBlock.getY()) >= 1.0) {
+
+                //Player falling
+                if(Math.abs(player.getLocation().getY() - centerBlock.getY()) < 1.15
+                        && player.getVelocity().getY() < -0.08){
+                    e.setBuild(false);
+                    return;
+                }
+
+
+                if (arena != null && arena.isInside(loc)) {
+
+                    CreateBlock createBlock = new CreateBlock();
+                    createBlock.setBlock(hand, block, arena, loc, against);
+                } else {
+                    //Lucky blocks cant be placed outside an arena
+                    e.setBuild(false);
+                }
 
             }else{
-                //Lucky blocks cant be placed outside an arena
+                //Lucky blocks can be placed inside a player
                 e.setBuild(false);
             }
         }
